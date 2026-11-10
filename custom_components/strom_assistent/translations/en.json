@@ -1,0 +1,119 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Strom-Assistent",
+        "description": "Source entities of the meter (read only). Target statistics are optional and are checked for gaps.",
+        "data": {
+          "bezug_energie": "Import energy (kWh, meter)",
+          "einspeise_energie": "Export energy (kWh, meter)",
+          "leistung": "Power (W, negative = export)",
+          "ziel_bezug_energie": "Check: import energy (helper)",
+          "ziel_einspeise_energie": "Check: export energy (helper)",
+          "ziel_bezug_leistung": "Check: import power (helper)",
+          "ziel_einspeise_leistung": "Check: export power (helper)"
+        }
+      }
+    },
+    "error": { "gleiche_entitaet": "Import and export must be different entities." },
+    "abort": { "single_instance_allowed": "Only a single instance is allowed." }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Strom-Assistent",
+        "menu_options": {
+          "tarif_hinzufuegen": "Add/change tariff",
+          "tarif_entfernen": "Remove tariff",
+          "preis_entitaet": "Dynamic price (optional)",
+          "lastprofil": "Load profile & anomaly",
+          "geraete": "Device detection",
+          "luecken": "Statistics gaps"
+        }
+      },
+      "tarif_hinzufuegen": {
+        "title": "Tariff",
+        "data": {
+          "gueltig_ab": "Valid from",
+          "grundpreis": "Base price (EUR/month)",
+          "arbeitspreis": "Import price (EUR/kWh)",
+          "einspeiseverguetung": "Feed-in tariff (EUR/kWh)"
+        }
+      },
+      "tarif_entfernen": { "title": "Remove tariff", "data": { "tarife": "Tariffs to remove" } },
+      "preis_entitaet": {
+        "title": "Dynamic price",
+        "description": "Price entity in EUR/kWh (e.g. Tibber/aWATTar). Leave empty for a fixed price.",
+        "data": { "preis_entitaet": "Price entity" }
+      },
+      "lastprofil": {
+        "title": "Load profile & anomaly",
+        "data": {
+          "empfindlichkeit": "Sensitivity k (lower = more sensitive)",
+          "anomalie_stunden": "Consecutive hours above baseline",
+          "min_abweichung_w": "Minimum spread (W)"
+        }
+      },
+      "geraete": {
+        "title": "Device detection",
+        "data": {
+          "geraete_aktiv": "Enabled",
+          "geraete_schwelle_w": "Step threshold (W)",
+          "geraete_dauer_s": "Hold time (s)"
+        }
+      },
+      "luecken": { "title": "Statistics gaps", "data": { "luecke_tage": "Check window (days)" } }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "kosten_heute": { "name": "Cost today" },
+      "kosten_monat": { "name": "Cost month" },
+      "kosten_jahr": { "name": "Cost year" },
+      "erloes_monat": { "name": "Feed-in revenue month" },
+      "netto_kosten_monat": { "name": "Net cost month" },
+      "prognose_monat": { "name": "Forecast end of month" },
+      "prognose_jahr": { "name": "Forecast end of year" },
+      "preis_bezug": { "name": "Current price" },
+      "preis_einspeisung": { "name": "Current feed-in tariff" },
+      "grundlast": { "name": "Base load" },
+      "abweichung": { "name": "Deviation from baseline" },
+      "luecken_anzahl": { "name": "Statistics gaps" }
+    },
+    "binary_sensor": { "anomalie": { "name": "Anomaly" } }
+  },
+  "issues": {
+    "quelle_nicht_verfuegbar": {
+      "title": "Source unavailable",
+      "description": "The entity {entity_id} is unavailable. Dependent Strom-Assistent sensors are unavailable (not 0)."
+    },
+    "statistik_luecke": {
+      "title": "Statistics gap detected",
+      "description": "Statistics for {entity_id} are missing from {start} (approx. {kwh} kWh). Use the service strom_assistent.luecke_reparieren (dry_run first) to fill them."
+    }
+  },
+  "services": {
+    "luecke_pruefen": {
+      "name": "Check gap",
+      "description": "Finds statistics gaps in the period. Changes nothing.",
+      "fields": {
+        "entity_id": { "name": "Entity", "description": "Entity with long-term statistics." },
+        "start": { "name": "Start", "description": "Start of the period." },
+        "ende": { "name": "End", "description": "End of the period." },
+        "richtung": { "name": "Direction", "description": "bezug (import) or einspeisung (export); default from configuration." }
+      }
+    },
+    "luecke_reparieren": {
+      "name": "Repair gap",
+      "description": "Fills missing statistics. Nothing is written unless dry_run is false.",
+      "fields": {
+        "entity_id": { "name": "Entity", "description": "Entity with long-term statistics." },
+        "start": { "name": "Start", "description": "Start of the period." },
+        "ende": { "name": "End", "description": "End of the period." },
+        "richtung": { "name": "Direction", "description": "bezug (import) or einspeisung (export); default from configuration." },
+        "dry_run": { "name": "Preview only", "description": "Default true. Set to false to write." },
+        "max_kwh": { "name": "Max kWh", "description": "Safety limit for the energy that is filled in." }
+      }
+    }
+  }
+}

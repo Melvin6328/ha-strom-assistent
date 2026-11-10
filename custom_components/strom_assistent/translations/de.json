@@ -1,0 +1,131 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Strom-Assistent",
+        "description": "Quell-Entitäten des Zählers (nur lesend). Ziel-Statistiken sind optional und werden auf Lücken geprüft.",
+        "data": {
+          "bezug_energie": "Bezugsenergie (kWh, Zähler)",
+          "einspeise_energie": "Einspeiseenergie (kWh, Zähler)",
+          "leistung": "Leistung (W, negativ = Einspeisung)",
+          "ziel_bezug_energie": "Prüfen: Bezug-Energie (Helfer)",
+          "ziel_einspeise_energie": "Prüfen: Einspeise-Energie (Helfer)",
+          "ziel_bezug_leistung": "Prüfen: Bezug-Leistung (Helfer)",
+          "ziel_einspeise_leistung": "Prüfen: Einspeise-Leistung (Helfer)"
+        }
+      }
+    },
+    "error": {
+      "gleiche_entitaet": "Bezug und Einspeisung müssen verschiedene Entitäten sein."
+    },
+    "abort": {
+      "single_instance_allowed": "Es ist nur eine Instanz möglich."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Strom-Assistent",
+        "menu_options": {
+          "tarif_hinzufuegen": "Tarif hinzufügen/ändern",
+          "tarif_entfernen": "Tarif entfernen",
+          "preis_entitaet": "Dynamischer Preis (optional)",
+          "lastprofil": "Lastprofil & Anomalie",
+          "geraete": "Geräteerkennung",
+          "luecken": "Statistik-Lücken"
+        }
+      },
+      "tarif_hinzufuegen": {
+        "title": "Tarif",
+        "data": {
+          "gueltig_ab": "Gültig ab",
+          "grundpreis": "Grundpreis (EUR/Monat)",
+          "arbeitspreis": "Arbeitspreis Bezug (EUR/kWh)",
+          "einspeiseverguetung": "Einspeisevergütung (EUR/kWh)"
+        }
+      },
+      "tarif_entfernen": {
+        "title": "Tarif entfernen",
+        "data": { "tarife": "Zu entfernende Tarife" }
+      },
+      "preis_entitaet": {
+        "title": "Dynamischer Preis",
+        "description": "Preis-Entität in EUR/kWh (z. B. Tibber/aWATTar). Leer lassen für Festpreis.",
+        "data": { "preis_entitaet": "Preis-Entität" }
+      },
+      "lastprofil": {
+        "title": "Lastprofil & Anomalie",
+        "data": {
+          "empfindlichkeit": "Empfindlichkeit k (kleiner = empfindlicher)",
+          "anomalie_stunden": "Stunden in Folge über Baseline",
+          "min_abweichung_w": "Mindest-Streuung (W)"
+        }
+      },
+      "geraete": {
+        "title": "Geräteerkennung",
+        "data": {
+          "geraete_aktiv": "Aktiv",
+          "geraete_schwelle_w": "Sprung-Schwelle (W)",
+          "geraete_dauer_s": "Haltedauer (s)"
+        }
+      },
+      "luecken": {
+        "title": "Statistik-Lücken",
+        "data": { "luecke_tage": "Prüfzeitraum (Tage)" }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "kosten_heute": { "name": "Kosten heute" },
+      "kosten_monat": { "name": "Kosten Monat" },
+      "kosten_jahr": { "name": "Kosten Jahr" },
+      "erloes_monat": { "name": "Einspeiseerlös Monat" },
+      "netto_kosten_monat": { "name": "Netto-Kosten Monat" },
+      "prognose_monat": { "name": "Hochrechnung Monatsende" },
+      "prognose_jahr": { "name": "Hochrechnung Jahresende" },
+      "preis_bezug": { "name": "Aktueller Preis" },
+      "preis_einspeisung": { "name": "Aktuelle Einspeisevergütung" },
+      "grundlast": { "name": "Grundlast" },
+      "abweichung": { "name": "Abweichung zur Baseline" },
+      "luecken_anzahl": { "name": "Statistik-Lücken" }
+    },
+    "binary_sensor": {
+      "anomalie": { "name": "Anomalie" }
+    }
+  },
+  "issues": {
+    "quelle_nicht_verfuegbar": {
+      "title": "Quelle nicht verfügbar",
+      "description": "Die Entität {entity_id} ist nicht verfügbar. Abhängige Sensoren von Strom-Assistent sind „nicht verfügbar“ (nicht 0)."
+    },
+    "statistik_luecke": {
+      "title": "Statistik-Lücke erkannt",
+      "description": "Für {entity_id} fehlt Statistik ab {start} (ca. {kwh} kWh). Mit dem Dienst strom_assistent.luecke_reparieren (zuerst dry_run) nachtragen."
+    }
+  },
+  "services": {
+    "luecke_pruefen": {
+      "name": "Lücke prüfen",
+      "description": "Findet Statistik-Lücken im Zeitraum. Ändert nichts.",
+      "fields": {
+        "entity_id": { "name": "Entität", "description": "Entität mit Langzeitstatistik." },
+        "start": { "name": "Start", "description": "Beginn des Prüfzeitraums." },
+        "ende": { "name": "Ende", "description": "Ende des Prüfzeitraums." },
+        "richtung": { "name": "Richtung", "description": "bezug oder einspeisung (Standard: aus Konfiguration)." }
+      }
+    },
+    "luecke_reparieren": {
+      "name": "Lücke reparieren",
+      "description": "Trägt fehlende Statistik nach. Ohne dry_run: false wird nichts geschrieben.",
+      "fields": {
+        "entity_id": { "name": "Entität", "description": "Entität mit Langzeitstatistik." },
+        "start": { "name": "Start", "description": "Beginn des Zeitraums." },
+        "ende": { "name": "Ende", "description": "Ende des Zeitraums." },
+        "richtung": { "name": "Richtung", "description": "bezug oder einspeisung (Standard: aus Konfiguration)." },
+        "dry_run": { "name": "Nur Vorschau", "description": "Standard: true. Auf false setzen, um zu schreiben." },
+        "max_kwh": { "name": "Maximale kWh", "description": "Sicherheitsgrenze für die nachgetragene Energie." }
+      }
+    }
+  }
+}

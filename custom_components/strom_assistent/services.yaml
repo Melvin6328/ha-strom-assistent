@@ -1,0 +1,61 @@
+luecke_pruefen:
+  fields:
+    entity_id:
+      required: true
+      example: sensor.stromzahler_stromverbrauch_energie
+      selector:
+        entity:
+          domain: sensor
+    start:
+      required: true
+      example: "2026-11-09 20:00:00"
+      selector:
+        datetime:
+    ende:
+      required: true
+      example: "2026-11-10 10:00:00"
+      selector:
+        datetime:
+    richtung:
+      selector:
+        select:
+          options:
+            - bezug
+            - einspeisung
+
+luecke_reparieren:
+  fields:
+    entity_id:
+      required: true
+      example: sensor.stromzahler_stromverbrauch_energie
+      selector:
+        entity:
+          domain: sensor
+    start:
+      required: true
+      example: "2026-11-09 20:00:00"
+      selector:
+        datetime:
+    ende:
+      required: true
+      example: "2026-11-10 10:00:00"
+      selector:
+        datetime:
+    richtung:
+      selector:
+        select:
+          options:
+            - bezug
+            - einspeisung
+    dry_run:
+      default: true
+      selector:
+        boolean:
+    max_kwh:
+      default: 100
+      selector:
+        number:
+          min: 0
+          max: 10000
+          mode: box
+          unit_of_measurement: kWh

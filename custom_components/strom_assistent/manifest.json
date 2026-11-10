@@ -1,0 +1,14 @@
+{
+  "domain": "strom_assistent",
+  "name": "Strom-Assistent",
+  "codeowners": [],
+  "config_flow": true,
+  "dependencies": ["recorder"],
+  "documentation": "https://github.com/Melvin6328/ha-strom-assistent",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/Melvin6328/ha-strom-assistent/issues",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "0.1.0"
+}
