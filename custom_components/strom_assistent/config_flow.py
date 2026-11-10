@@ -47,15 +47,12 @@ def _entity(required: bool, key: str, default: str | None = None) -> tuple[Any, 
 def _number(
     minimum: float, maximum: float, step: float = 1, unit: str | None = None
 ) -> sel.NumberSelector:
-    return sel.NumberSelector(
-        sel.NumberSelectorConfig(
-            min=minimum,
-            max=maximum,
-            step=step,
-            mode=sel.NumberSelectorMode.BOX,
-            unit_of_measurement=unit,
-        )
+    config = sel.NumberSelectorConfig(
+        min=minimum, max=maximum, step=step, mode=sel.NumberSelectorMode.BOX
     )
+    if unit:
+        config["unit_of_measurement"] = unit
+    return sel.NumberSelector(config)
 
 
 class StromAssistentConfigFlow(ConfigFlow, domain=DOMAIN):
