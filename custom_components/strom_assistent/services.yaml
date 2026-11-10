@@ -2,7 +2,7 @@ luecke_pruefen:
   fields:
     entity_id:
       required: true
-      example: sensor.stromzahler_stromverbrauch_energie
+      example: sensor.mein_verbrauch_energie
       selector:
         entity:
           domain: sensor
@@ -27,7 +27,7 @@ luecke_reparieren:
   fields:
     entity_id:
       required: true
-      example: sensor.stromzahler_stromverbrauch_energie
+      example: sensor.mein_verbrauch_energie
       selector:
         entity:
           domain: sensor

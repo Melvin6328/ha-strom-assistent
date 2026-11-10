@@ -33,7 +33,7 @@ Immer zuerst Vorschau (`dry_run` ist Standard `true`, es wird nichts geschrieben
 ```yaml
 action: strom_assistent.luecke_reparieren
 data:
-  entity_id: sensor.stromzahler_stromverbrauch_energie
+  entity_id: sensor.mein_verbrauch_energie
   richtung: bezug
   start: "2026-11-09 20:00:00"
   ende: "2026-11-10 10:00:00"
@@ -45,7 +45,7 @@ Für die Einspeisung: `entity_id: sensor.stromzahler_einspeisung_energie`, `rich
 Die Antwort enthält Lücken, fehlende kWh und die neuen `sum`-Werte. Passt alles, `dry_run: false` setzen.
 
 Wie repariert wird (Energie): Lückenstunden bekommen das Delta des echten Zählers
-(`sensor.stromzahler_energie` bzw. `..._energieeinspeisung`); alle **späteren** Stundenzeilen werden um die
+(deine konfigurierte Bezugs- bzw. Einspeise-Energie); alle **späteren** Stundenzeilen werden um die
 nachgetragene Energie verschoben, damit Differenzen im Energy-Dashboard stimmen (`state` bleibt unverändert).
 Plausibilitätsprüfung: Stundendelta 0…30 kWh, Summe ≤ `max_kwh` (Standard 100). Es werden nur Stunden
 verändert, in denen das Ziel < 50 % des Referenzzählers erreicht hat. Jede Reparatur wird als Warnung im Log

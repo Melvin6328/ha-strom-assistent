@@ -69,9 +69,9 @@ class StromAssistentConfigFlow(ConfigFlow, domain=DOMAIN):
             else:
                 return self.async_create_entry(title="Strom-Assistent", data=user_input)
         fields = [
-            _entity(True, CONF_BEZUG_ENERGIE, "sensor.stromzahler_energie"),
-            _entity(True, CONF_EINSPEISE_ENERGIE, "sensor.stromzahler_energieeinspeisung"),
-            _entity(True, CONF_LEISTUNG, "sensor.stromzahler_leistung"),
+            _entity(True, CONF_BEZUG_ENERGIE),
+            _entity(True, CONF_EINSPEISE_ENERGIE),
+            _entity(True, CONF_LEISTUNG),
             _entity(False, CONF_ZIEL_BEZUG_ENERGIE),
             _entity(False, CONF_ZIEL_EINSPEISE_ENERGIE),
             _entity(False, CONF_ZIEL_BEZUG_LEISTUNG),
