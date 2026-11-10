@@ -41,7 +41,7 @@ data:
 response_variable: vorschau
 ```
 
-Für die Einspeisung: `entity_id: sensor.stromzahler_einspeisung_energie`, `richtung: einspeisung`.
+Für die Einspeisung: `entity_id: sensor.mein_einspeisung_energie`, `richtung: einspeisung`.
 Die Antwort enthält Lücken, fehlende kWh und die neuen `sum`-Werte. Passt alles, `dry_run: false` setzen.
 
 Wie repariert wird (Energie): Lückenstunden bekommen das Delta des echten Zählers
